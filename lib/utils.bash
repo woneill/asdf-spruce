@@ -2,10 +2,9 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for spruce.
 GH_REPO="https://github.com/geofffranks/spruce"
 TOOL_NAME="spruce"
-TOOL_TEST="spruce --help"
+TOOL_TEST="--version"
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
@@ -31,8 +30,6 @@ list_github_tags() {
 }
 
 list_all_versions() {
-  # TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-  # Change this function if spruce has other means of determining installable versions.
   list_github_tags
 }
 
@@ -40,12 +37,15 @@ download_release() {
   local version filename url
   version="$1"
   filename="$2"
+  platform="$(uname | tr '[:upper:]' '[:lower:]')"
 
-  # TODO: Adapt the release URL convention for spruce
-  url="$GH_REPO/archive/v${version}.tar.gz"
+  # Adapt the release URL convention for spruce
+  # https://github.com/geofffranks/spruce/releases/download/v1.27.0/spruce-darwin-amd64
+  url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}-${platform}-amd64"
 
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+  chmod a+x "$filename"
 }
 
 install_version() {
@@ -58,13 +58,11 @@ install_version() {
   fi
 
   (
-    mkdir -p "$install_path"
-    cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
+    mkdir -p "$install_path"/bin
+    cp -pr "$ASDF_DOWNLOAD_PATH"/* "$install_path"/bin/
 
-    # TODO: Asert spruce executable exists.
-    local tool_cmd
-    tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
-    test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
+    test -x "$install_path/bin/$TOOL_NAME" || fail "Expected $install_path/bin/$TOOL_NAME to be executable."
+    tool_version=$("$install_path"/bin/$TOOL_NAME $TOOL_TEST) && test "${tool_version##*\ }" = "$version" || fail "Expected $install_path/bin/$TOOL_NAME to be version $version but got ${tool_version##*\ }."
 
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
