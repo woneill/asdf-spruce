@@ -62,7 +62,7 @@ install_version() {
     cp -pr "$ASDF_DOWNLOAD_PATH"/* "$install_path"/bin/
 
     test -x "$install_path/bin/$TOOL_NAME" || fail "Expected $install_path/bin/$TOOL_NAME to be executable."
-    tool_version=$("$install_path"/bin/$TOOL_NAME $TOOL_TEST) && test "${tool_version##*\ }" = "$version" || fail "Expected $install_path/bin/$TOOL_NAME to be version $version but got ${tool_version##*\ }."
+    tool_version=$("$install_path"/bin/$TOOL_NAME $TOOL_TEST) && test "${tool_version##*\ }" = "v${version}" || fail "Expected $install_path/bin/$TOOL_NAME to be version v${version} but got ${tool_version##*\ }."
 
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
