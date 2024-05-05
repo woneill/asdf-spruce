@@ -39,14 +39,26 @@ download_release() {
 	local version filename url
 	version="$1"
 	filename="$2"
-	os="$(uname | tr '[:upper:]' '[:lower:]')"
-	platform="$(uname -m)"
+
+	local platform architecture
+
+	case "$OSTYPE" in
+	darwin*) platform="darwin" ;;
+	linux*) platform="linux" ;;
+	*) fail "Unsupported platform" ;;
+	esac
+
+	case "$(uname -m)" in
+	aarch64* | arm64) architecture="arm64" ;;
+	x86_64*) architecture="amd64" ;;
+	*) fail "Unsupported architecture" ;;
+	esac
 
 	# Adapt the release URL convention for spruce
 	# https://github.com/geofffranks/spruce/releases/download/v1.27.0/spruce-darwin-amd64
-	url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}-${os}-${platform}"
+	url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}-${platform}-${architecture}"
 
-	echo "* Downloading $TOOL_NAME release $version for ${os}-${platform}..."
+	echo "* Downloading $TOOL_NAME release $version for ${platform}-${architecture}..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
