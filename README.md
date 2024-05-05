@@ -1,6 +1,6 @@
 <div align="center">
 
-# asdf-spruce ![Build](https://github.com/woneill/asdf-spruce/workflows/Build/badge.svg) ![Lint](https://github.com/woneill/asdf-spruce/workflows/Lint/badge.svg)
+# asdf-spruce [![Build](https://github.com/woneill/asdf-spruce/actions/workflows/build.yml/badge.svg)](https://github.com/woneill/asdf-spruce/actions/workflows/build.yml) [![Lint](https://github.com/woneill/asdf-spruce/actions/workflows/lint.yml/badge.svg)](https://github.com/woneill/asdf-spruce/actions/workflows/lint.yml)
 
 [spruce](https://github.com/geofffranks/spruce) plugin for the [asdf version manager](https://asdf-vm.com).
 
@@ -10,14 +10,12 @@
 
 - [Dependencies](#dependencies)
 - [Install](#install)
-- [Why?](#why)
 - [Contributing](#contributing)
 - [License](#license)
 
 # Dependencies
 
-- `bash`, `curl`, `tar`: generic POSIX utilities.
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
+- `bash`, `curl`, `tar`, and [POSIX utilities](https://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html).
 
 # Install
 
@@ -56,4 +54,4 @@ Contributions of any kind welcome! See the [contributing guide](contributing.md)
 
 # License
 
-See [LICENSE](LICENSE) © [Bill ONeill](https://github.com/woneill/)
+See [LICENSE](LICENSE) © [Bill O'Neill](https://github.com/woneill/)

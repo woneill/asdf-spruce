@@ -1,24 +1,24 @@
 name: Lint
+
 on:
-  pull_request:
-    paths-ignore:
-      - "**.md"
   push:
-    paths-ignore:
-      - "**.md"
+    branches:
+      - main
+  pull_request:
 
 jobs:
   lint:
-    name: Shellcheck and Shell Format
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
-      - name: asdf_install
-        uses: asdf-vm/actions/install@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # v3
-      - name: Shellcheck
-        run: shellcheck -x bin/* -P lib/
-      - name: Shell Format - List files to check
-        run: shfmt -f .
-      - name: Shell Format - Validate
-        run: shfmt -d -i 2 -ci .
+      - uses: actions/checkout@v3
+      - uses: asdf-vm/actions/install@v2
+      - run: scripts/lint.bash
+
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check workflow files
+        uses: docker://rhysd/actionlint:1.6.23
+        with:
+          args: -color
