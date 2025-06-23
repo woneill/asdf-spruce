@@ -1,5 +1,7 @@
 <div align="center">
 
+**DEPRECATED - This is no longer maintained**
+
 # asdf-spruce [![Build](https://github.com/woneill/asdf-spruce/actions/workflows/build.yml/badge.svg)](https://github.com/woneill/asdf-spruce/actions/workflows/build.yml) [![Lint](https://github.com/woneill/asdf-spruce/actions/workflows/lint.yml/badge.svg)](https://github.com/woneill/asdf-spruce/actions/workflows/lint.yml)
 
 [spruce](https://github.com/geofffranks/spruce) plugin for the [asdf version manager](https://asdf-vm.com).
